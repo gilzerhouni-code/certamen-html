@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Certamen Question Generator</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    padding: 40px;
+    background: #f9f6e8;
+    text-align: center;
+  }
+  select, button {
+    padding: 10px 16px;
+    margin: 8px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+  #questionBox {
+    margin-top: 30px;
+    padding: 20px;
+    border: 2px solid #d4af37;
+    border-radius: 12px;
+    background: #fff9c4;
+    display: inline-block;
+    text-align: left;
+    max-width: 600px;
+  }
+  #answer {
+    display: none;
+    margin-top: 15px;
+    color: #333;
+  }
+</style>
+</head>
+<body>
+
+<h1>Certamen Question Generator</h1>
+
+<label for="difficulty">Select Difficulty:</label>
+<select id="difficulty">
+  <option value="Novice">Novice</option>
+  <option value="Intermediate">Intermediate</option>
+  <option value="Advanced">Advanced</option>
+</select>
+
+<br>
+<button onclick="generateQuestion()">Generate Question</button>
+<button onclick="showAnswer()">Show Answer</button>
+
+<div id="questionBox">
+  <p><strong>Category:</strong> <span id="category"></span></p>
+  <p><strong>Question:</strong> <span id="question"></span></p>
+  <p id="answer"><strong>Answer:</strong> <span id="answerText"></span></p>
+</div>
+
+<script>
+const questions = {
+  Novice: [
+    {category:"Vocabulary", question:"Translate 'puella aquam portat.'", answer:"The girl carries water."},
+    {category:"Mythology", question:"Who was the queen of the gods?", answer:"Juno"},
+    {category:"Culture", question:"What article of clothing was worn by Roman citizens?", answer:"Toga"},
+    {category:"History", question:"Who was the first king of Rome?", answer:"Romulus"}
+  ],
+  Intermediate: [
+    {category:"History", question:"Who crossed the Rubicon in 49 BCE?", answer:"Julius Caesar"},
+    {category:"Grammar", question:"Give the 1st person plural imperfect active of 'laudo.'", answer:"laudabamus"},
+    {category:"Mythology", question:"Who was the mother of Perseus?", answer:"Danaë"}
+  ],
+  Advanced: [
+    {category:"Grammar", question:"Parse 'tulisset.'", answer:"3rd person singular pluperfect active subjunctive of 'fero'"},
+    {category:"Mythology", question:"Who punished Prometheus and why?", answer:"Zeus punished him for giving fire to humans."},
+    {category:"History", question:"Name the Roman consul defeated at Cannae.", answer:"Lucius Aemilius Paullus"}
+  ]
+};
+
+function randomQuestion(diff) {
+  const pool = questions[diff];
+  const index = Math.floor(Math.random() * pool.length);
+  return pool[index];
+}
+
+let currentQuestion = null;
+
+function generateQuestion() {
+  const diff = document.getElementById("difficulty").value;
+  currentQuestion = randomQuestion(diff);
+
+  document.getElementById("category").textContent = currentQuestion.category;
+  document.getElementById("question").textContent = currentQuestion.question;
+  document.getElementById("answerText").textContent = currentQuestion.answer;
+
+  document.getElementById("answer").style.display = "none";
+}
+
+function showAnswer() {
+  if (currentQuestion) {
+    document.getElementById("answer").style.display = "block";
+  }
+}
+</script>
+
+</body>
+</html>
